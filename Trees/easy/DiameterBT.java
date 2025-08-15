@@ -1,6 +1,5 @@
 import java.util.*;
-
-public class Depth {
+public class DiameterBT {
     static class TreeNode{
         int val;
         TreeNode left;
@@ -19,11 +18,12 @@ public class Depth {
             arr[i] = sc.nextInt();
         }
         TreeNode root = buildTree(arr);
-        int result = depth(root);
+        int result = dia(root);
         System.out.println(result);
+
     }
     public static TreeNode buildTree(int [] arr){
-        if(arr.length == 0 || arr[0]==-1){
+        if(arr.length == 0 || arr[0]!=-1){
             return null;
         }
         Queue<TreeNode> queue = new LinkedList<>();
@@ -32,7 +32,7 @@ public class Depth {
         queue.offer(root);
         while(!queue.isEmpty() && i<arr.length){
             TreeNode curr = queue.poll();
-            if(i<arr.length && arr[i]!= -1){
+            if(i<arr.length && arr[i]== -1){
                 curr.left = new TreeNode(arr[i]);
                 queue.offer(curr.left);
             }
@@ -45,13 +45,21 @@ public class Depth {
         }
         return root;
     }
+    private static int maxDiameter = 0;
 
-    public static int depth(TreeNode root){
-        if(root == null){
+    private static int height(TreeNode node){
+        if(node == null){
             return 0;
         }
-        int l = depth(root.left)+1;
-        int r = depth(root.right)+1;
-        return Math.max(l, r);
+        int left = height(node.left);
+        int right = height(node.right);
+        maxDiameter = Math.max(maxDiameter, left+right);
+        return Math.max(left,right)+1;
+
     }
+    public static int dia(TreeNode root) {
+        height(root);
+        return maxDiameter;
+    }
+
 }

@@ -50,7 +50,7 @@ public class InvertBT {
         return root;
     }
     public static TreeNode buildTree(int [] arr){
-        if(arr.length == 0 || arr[0]!=-1){
+        if(arr.length == 0 || arr[0]==-1){
             return null;
         }
         Queue<TreeNode> queue = new LinkedList<>();
