@@ -1,5 +1,6 @@
 import java.util.*;
-public class InvertBT {
+
+public class Depth {
     static class TreeNode{
         int val;
         TreeNode left;
@@ -18,36 +19,8 @@ public class InvertBT {
             arr[i] = sc.nextInt();
         }
         TreeNode root = buildTree(arr);
-        TreeNode result = invertTree(root);
-
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(result);
-        while(!queue.isEmpty()){
-            int levelSize = queue.size();
-            
-            for(int i=0;i<levelSize;i++){
-                TreeNode curr = queue.poll();
-                System.out.print(curr.val + " ");
-                if(curr.left!=null){
-                    queue.offer(curr.left);
-                }
-                if(curr.right!=null){
-                    queue.offer(curr.right);
-                }
-            }
-        }
-    }
-    public static TreeNode invertTree(TreeNode root) {
-        if(root == null){
-            return null;
-        }
-        
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
-        invertTree(root.left);
-        invertTree(root.right);
-        return root;
+        int result = depth(root);
+        System.out.println(result);
     }
     public static TreeNode buildTree(int [] arr){
         if(arr.length == 0 || arr[0]!=-1){
@@ -71,5 +44,14 @@ public class InvertBT {
             i++;
         }
         return root;
+    }
+
+    public static int depth(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int l = depth(root.left)+1;
+        int r = depth(root.right)+1;
+        return Math.max(l, r);
     }
 }
