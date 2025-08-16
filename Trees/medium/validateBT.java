@@ -4,7 +4,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 
-public class SameTree {
+public class validateBT {
     static class TreeNode{
         TreeNode left;
         TreeNode right;
@@ -18,19 +18,12 @@ public class SameTree {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int [] arr =  new int[n];
+        int [] arr = new int [n];
         for(int i=0;i<n;i++){
-            arr[i] = sc.nextInt();
+            arr[i]= sc.nextInt();
         }
-        int n1 = sc.nextInt();
-        int [] nums =  new int[n1];
-        for(int i=0;i<n;i++){
-            nums[i] = sc.nextInt();
-        }
-        TreeNode p = buildTree(arr);
-        TreeNode q = buildTree(nums);
-        boolean result = same(p , q);
-
+        TreeNode root = buildTree(arr);
+        boolean result = validBT(root);
         System.out.println(result);
     }
     public static TreeNode buildTree(int [] arr){
@@ -58,13 +51,16 @@ public class SameTree {
         }
         return root;
     }
-    public static boolean same(TreeNode p, TreeNode q){
-        if(p == null && q == null){
+    public static boolean validBT(TreeNode root){
+        return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    public static boolean validate(TreeNode root, long min, long max){
+        if(root == null){
             return true;
         }
-        if(p!=null && q!=null && q.val == p.val){
-            return same(p.left, q.left) && same(p.right, q.right);
+        if(root.val<=min || root.val>=max){
+            return false;
         }
-        return false;
+        return validate(root.left, min, root.val) && validate(root.right, root.val,max);
     }
 }

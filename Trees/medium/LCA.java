@@ -57,7 +57,7 @@ public class LCA {
                 queue.offer(curr.left);
             }
             i++;
-            if(!queue.isEmpty() && arr[i]!=-1){
+            if(i<arr.length && arr[i]!=-1){
                 curr.right = new TreeNode(arr[i]);
                 queue.offer(curr.right);
             }

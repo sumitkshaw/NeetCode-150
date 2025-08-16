@@ -4,7 +4,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 
-public class SameTree {
+public class KthSmallest {
     static class TreeNode{
         TreeNode left;
         TreeNode right;
@@ -18,19 +18,13 @@ public class SameTree {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int [] arr =  new int[n];
+        int [] arr = new int [n];
         for(int i=0;i<n;i++){
-            arr[i] = sc.nextInt();
+            arr[i]= sc.nextInt();
         }
-        int n1 = sc.nextInt();
-        int [] nums =  new int[n1];
-        for(int i=0;i<n;i++){
-            nums[i] = sc.nextInt();
-        }
-        TreeNode p = buildTree(arr);
-        TreeNode q = buildTree(nums);
-        boolean result = same(p , q);
-
+        int k = sc.nextInt();
+        TreeNode root = buildTree(arr);
+        int result = kth(root, k);
         System.out.println(result);
     }
     public static TreeNode buildTree(int [] arr){
@@ -58,13 +52,22 @@ public class SameTree {
         }
         return root;
     }
-    public static boolean same(TreeNode p, TreeNode q){
-        if(p == null && q == null){
-            return true;
+    static TreeNode result = null;
+    static int count = 0;
+    public static int kth(TreeNode root,int k){
+        helper(root, k);
+        return result.val;
+    }
+    public static void helper(TreeNode root, int k){
+        if(root == null){
+            return;
         }
-        if(p!=null && q!=null && q.val == p.val){
-            return same(p.left, q.left) && same(p.right, q.right);
+        helper(root.left,k);
+        count++;
+        if(count == k){
+            result = root;
+            return;
         }
-        return false;
+        helper(root.right, k);
     }
 }
